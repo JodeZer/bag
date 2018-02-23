@@ -1,0 +1,36 @@
+{{define "func"}}
+
+
+package bag
+
+type {{.UpperType}}Filter func({{.Type}}) bool
+type {{.UpperType}}Mender func({{.Type}}) {{.Type}}
+type {{.UpperType}}Ranger func({{.Type}})
+
+func (filter {{.UpperType}}Filter) Something() {{.UpperType}}Filter {
+	if filter == nil {
+		return func({{.Type}}) bool {
+			return false
+		}
+	}
+	return filter
+}
+
+func (mender {{.UpperType}}Mender) Something() {{.UpperType}}Mender {
+	if mender == nil {
+		return func(str {{.Type}}) {{.Type}} {
+			return str
+		}
+	}
+	return mender
+}
+
+func (ranger {{.UpperType}}Ranger) Something() {{.UpperType}}Ranger {
+	if ranger == nil {
+		return func({{.Type}}) {}
+	}
+	return ranger
+}
+
+
+{{end}}

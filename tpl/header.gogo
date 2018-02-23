@@ -1,0 +1,13 @@
+{{define "header"}}
+
+package bag
+
+// auto generate by bag
+
+// generate slice
+{{template "slice" . }}
+
+// generate sliceFunc
+{{template "func" . }}
+
+{{end}}
