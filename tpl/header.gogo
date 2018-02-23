@@ -1,7 +1,6 @@
 {{define "header"}}
 
-package bag
-
+{{template "include" . }}
 // auto generate by bag
 
 // generate slice

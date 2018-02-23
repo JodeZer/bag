@@ -10,13 +10,15 @@ import (
 )
 
 type BagRender struct {
-	conf *BagRenderConf
+	conf   *BagRenderConf
+	render *RenderImpl
 }
 
 var tplFiles = []string{
 	"tpl/func.gogo",
 	"tpl/header.gogo",
 	"tpl/slice.gogo",
+	"tpl/include.gogo",
 }
 
 var tplEngine = template.New("bag/tpl")
@@ -33,7 +35,8 @@ func NewBagRender(conf *BagRenderConf) *BagRender {
 		panic("fuck u")
 	}
 	ret := &BagRender{
-		conf: conf,
+		conf:   conf,
+		render: NewRenderImpl(nil, nil),
 	}
 	for _, filename := range conf.TemplateFiles {
 		data, err := tpl.Asset(filename)
@@ -41,13 +44,10 @@ func NewBagRender(conf *BagRenderConf) *BagRender {
 			panic(err)
 		}
 
-		if _, err = tplEngine.Funcs(template.FuncMap{
-			"UpperType": ret.UpperType,
-			"Type":      ret.Type,
-		}).Parse(string(data)); err != nil {
+		if _, err = tplEngine.Parse(string(data)); err != nil {
 			panic(err)
 		}
-		fmt.Println(string(data))
+		//fmt.Println(string(data))
 	}
 
 	return ret
@@ -55,10 +55,10 @@ func NewBagRender(conf *BagRenderConf) *BagRender {
 
 func (r *BagRender) Render() error {
 	buf := new(bytes.Buffer)
-	if err := tplEngine.Execute(buf, r); err != nil {
+	if err := tplEngine.ExecuteTemplate(buf, "header", r.render); err != nil {
 		return err
 	}
-	fmt.Println(buf.String())
+	//fmt.Println(buf.String())
 	formatted, err := format.Source(buf.Bytes())
 	if err != nil {
 		return err

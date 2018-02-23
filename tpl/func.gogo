@@ -1,36 +1,36 @@
 {{define "func"}}
 
+{{- range $type := .AllTypes}}
+type {{$type.AliasType}}Filter func({{$type.OrigType}}) bool
+type {{$type.AliasType}}Mender func({{$type.OrigType}}) {{$type.OrigType}}
+type {{$type.AliasType}}Ranger func({{$type.OrigType}})
 
-package bag
-
-type {{.UpperType}}Filter func({{.Type}}) bool
-type {{.UpperType}}Mender func({{.Type}}) {{.Type}}
-type {{.UpperType}}Ranger func({{.Type}})
-
-func (filter {{.UpperType}}Filter) Something() {{.UpperType}}Filter {
+func (filter {{$type.AliasType}}Filter) Something() {{$type.AliasType}}Filter {
 	if filter == nil {
-		return func({{.Type}}) bool {
+		return func({{$type.OrigType}}) bool {
 			return false
 		}
 	}
 	return filter
 }
 
-func (mender {{.UpperType}}Mender) Something() {{.UpperType}}Mender {
+func (mender {{$type.AliasType}}Mender) Something() {{$type.AliasType}}Mender {
 	if mender == nil {
-		return func(str {{.Type}}) {{.Type}} {
+		return func(str {{$type.OrigType}}) {{$type.OrigType}} {
 			return str
 		}
 	}
 	return mender
 }
 
-func (ranger {{.UpperType}}Ranger) Something() {{.UpperType}}Ranger {
+func (ranger {{$type.AliasType}}Ranger) Something() {{$type.AliasType}}Ranger {
 	if ranger == nil {
-		return func({{.Type}}) {}
+		return func({{$type.OrigType}}) {}
 	}
 	return ranger
 }
+{{end}}
+
 
 
 {{end}}
