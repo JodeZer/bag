@@ -27,7 +27,7 @@ func MakeStringSliceFromRaw(raw []string) *StringSlice {
 }
 
 func (this *StringSlice) Append(vals ...string) {
-	this.AppendIf(nil, vals...)
+	this.raw = append(this.raw, vals...)
 }
 
 func (this *StringSlice) AppendSlice(slice *StringSlice) {
@@ -36,8 +36,8 @@ func (this *StringSlice) AppendSlice(slice *StringSlice) {
 	})
 }
 
-func (this *StringSlice) AppendIf(filters ...StringFilter, vals ...string) {
-	this.AppendSlice(MakeStringSliceFromRaw(vals).Filter(filter...))
+func (this *StringSlice) AppendIf(filter StringFilter, vals ...string) {
+	this.AppendSlice(MakeStringSliceFromRaw(vals).Filter(filter))
 }
 
 func (this *StringSlice) Range(rangers ...StringRanger) {
@@ -72,7 +72,7 @@ func (this *StringSlice) Filter(filters ...StringFilter) *StringSlice {
 	return res
 }
 
-func (this *StringSlice) ValFilter(filters ...StringValFilter) *StringSlice {
+func (this *StringSlice) FilterVal(filters ...StringValFilter) *StringSlice {
 	return this.Filter(StringValFilterBatchToStringFilter(filters...)...)
 }
 
@@ -80,20 +80,18 @@ func (this *StringSlice) Map(mappers ...StringMapper) *StringSlice {
 
 	res := MakeStringSlice(0, len(this.GetRaw()))
 
-	this.Range(func(val string) {
-		for i, f := range mappers {
+	this.Range(func(i int, val string) {
+		for _, f := range mappers {
 			val = f.Something()(i, val)
 		}
 		res.Append(val)
 	})
 
-	res = tmp
-
 	return res
 }
 
-func (this *StringSlice) GetValMendedSlice(mappers ...StringMapper) *StringSlice {
-	return this.Map(StringValMenderBatchToStringMapper(mappers...)...)
+func (this *StringSlice) MapVal(mappers ...StringValMapper) *StringSlice {
+	return this.Map(StringValMapperBatchToStringMapper(mappers...)...)
 }
 
 // let it crash apis

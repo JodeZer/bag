@@ -37,7 +37,7 @@ type StringValFilter func(string) bool
 type StringValMapper func(string) string
 type StringValRanger func(string)
 
-func (filter StringValFilter) Something() StringFilter {
+func (filter StringValFilter) Something() StringValFilter {
 	if filter == nil {
 		return func(string) bool {
 			return false
@@ -46,7 +46,7 @@ func (filter StringValFilter) Something() StringFilter {
 	return filter
 }
 
-func (mapper StringValFilter) Something() StringMapper {
+func (mapper StringValMapper) Something() StringValMapper {
 	if mapper == nil {
 		return func(val string) string {
 			return val
@@ -55,7 +55,7 @@ func (mapper StringValFilter) Something() StringMapper {
 	return mapper
 }
 
-func (ranger StringValFilter) Something() StringRanger {
+func (ranger StringValRanger) Something() StringValRanger {
 	if ranger == nil {
 		return func(string) {}
 	}
@@ -78,7 +78,7 @@ func StringValRangerBatchToStringRanger(rangers ...StringValRanger) []StringRang
 	return res
 }
 
-func StringValMapperToStringMapper(mapper StringValRanger) StringMapper {
+func StringValMapperToStringMapper(mapper StringValMapper) StringMapper {
 	return func(i int, val string) string {
 		return mapper.Something()(val)
 	}
@@ -92,16 +92,16 @@ func StringValMapperBatchToStringMapper(mappers ...StringValMapper) []StringMapp
 	return res
 }
 
-func StringValFilterToStringFilter(filter StringValRanger) StringFilter {
+func StringValFilterToStringFilter(filter StringValFilter) StringFilter {
 	return func(i int, val string) bool {
 		return filter.Something()(val)
 	}
 }
 
 func StringValFilterBatchToStringFilter(filters ...StringValFilter) []StringFilter {
-	res := make([]StringMapper, len(filters))
+	res := make([]StringFilter, len(filters))
 	for _, filter := range filters {
-		res = append(res, StringValMapperToStringMapper(filter))
+		res = append(res, StringValFilterToStringFilter(filter))
 	}
 	return res
 }
