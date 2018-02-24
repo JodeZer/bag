@@ -4,6 +4,8 @@ buildBin:
 
 
 build: buildBin
-	go build -o bin/bag cmd/bag.go
+	go build -o bin/bag cmd/*.go
 
-genLib: 
+genLib: build
+	rm -r lib
+	./bin/bag vomit --onlyBuiltIn=true --to=lib

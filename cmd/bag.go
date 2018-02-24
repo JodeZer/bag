@@ -15,26 +15,28 @@ var Root = &cobra.Command{
 
 var dir string
 var conf string
+var builtIn bool
 
 var vomit = &cobra.Command{
 	Use: "vomit",
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO handle type config
-		renderIns := render.NewBagRender(&render.BagRenderConf{
-			RenderInputTypes: []render.RenderInputType{
+		var renderTypeArray []render.RenderInputType
+		if builtIn {
+			renderTypeArray = allBuiltInRenderType
+		} else {
+			renderTypeArray = []render.RenderInputType{
 				render.RenderInputType{
-					Type: "int",
-				},
-				render.RenderInputType{
-					Type: "string",
-				},
-				render.RenderInputType{
-					Package: "github.com/xxx/pkg",
+					Package: "github.com/xxx/test",
 					Type:    "StructA",
 				},
-			},
+			}
+		}
+
+		renderIns := render.NewBagRender(&render.BagRenderConf{
+			RenderInputTypes: renderTypeArray,
 		})
-		err := renderIns.RenderToFile(processFullPathDir(dir) + "/bag/" + "bag.go")
+		err := renderIns.RenderToFile(processFullPathDir(dir) + "/bag/" + "gen_bag.go")
 		if err != nil {
 			panic(err)
 		}
@@ -52,6 +54,7 @@ func processFullPathDir(dir string) string {
 func init() {
 	vomit.Flags().StringVarP(&dir, "to", "t", "", "write file to")
 	vomit.Flags().StringVarP(&conf, "config", "c", "", "type config")
+	vomit.Flags().BoolVarP(&builtIn, "onlyBuiltIn", "b", false, "gen all builtin types")
 }
 
 func main() {
