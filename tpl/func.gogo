@@ -1,7 +1,5 @@
 {{define "func"}}
 
-// common area
-type BoolFunc func() bool
 
 {{- range $type := .AllTypes}}
 
@@ -110,7 +108,7 @@ func {{$type.AliasType}}ValFilterBatchTo{{$type.AliasType}}Filter(filters ...{{$
 	return res
 }
 
-func {{$type.AliasType}}If(f BoolFunc, a, b {{$type.OrigType}}) {{$type.OrigType}} {
+func {{$type.AliasType}}If(f func() bool, a, b {{$type.OrigType}}) {{$type.OrigType}} {
 	if f() {
 		return a
 	}
