@@ -26,68 +26,105 @@ func MakeStringSliceFromRaw(raw []string) *StringSlice {
 	}
 }
 
-func (ss *StringSlice) Append(strs ...string) {
-	ss.AppendIf(nil, strs...)
+func (this *StringSlice) Append(vals ...string) {
+	this.AppendIf(nil, vals...)
 }
 
-func (ss *StringSlice) AppendSlice(slice *StringSlice) {
-	slice.Range(func(str string) {
-		ss.Append(str)
+func (this *StringSlice) AppendSlice(slice *StringSlice) {
+	slice.RangeVal(func(val string) {
+		this.Append(val)
 	})
 }
 
-func (ss *StringSlice) AppendIf(filter StringFilter, strs ...string) {
-	MakeStringSliceFromRaw(strs).Range(func(str string) {
-		if !filter.Something()(str) {
-			ss.raw = append(ss.raw, str)
-		}
-	})
+func (this *StringSlice) AppendIf(filters ...StringFilter, vals ...string) {
+	this.AppendSlice(MakeStringSliceFromRaw(vals).Filter(filter...))
 }
 
-func (ss *StringSlice) Range(rangers ...StringRanger) {
+func (this *StringSlice) Range(rangers ...StringRanger) {
 	for _, ranger := range rangers {
-		for _, str := range ss.GetRaw() {
-			ranger.Something()(str)
+		for i, val := range this.GetRaw() {
+			ranger.Something()(i, val)
 		}
 	}
 }
 
-func (ss *StringSlice) GetRaw() []string {
-	return ss.raw
+func (this *StringSlice) RangeVal(rangers ...StringValRanger) {
+	this.Range(StringValRangerBatchToStringRanger(rangers...)...)
 }
 
-func (ss *StringSlice) GetFilteredSlice(filters ...StringFilter) *StringSlice {
+func (this *StringSlice) GetRaw() []string {
+	return this.raw
+}
 
-	res := MakeStringSlice(0, len(ss.GetRaw()))
+func (this *StringSlice) Filter(filters ...StringFilter) *StringSlice {
 
-	ss.Range(func(str string) {
+	res := MakeStringSlice(0, len(this.GetRaw()))
+
+	this.Range(func(i int, val string) {
 		for _, f := range filters {
-			if !f.Something()(str) {
-				res.Append(str)
+			if f.Something()(i, val) {
+				return
 			}
 		}
+		res.Append(val)
 	})
 
 	return res
 }
 
-func (ss *StringSlice) GetMendedSlice(menders ...StringMender) *StringSlice {
+func (this *StringSlice) ValFilter(filters ...StringValFilter) *StringSlice {
+	return this.Filter(StringValFilterBatchToStringFilter(filters...)...)
+}
 
-	res := MakeStringSlice(0, len(ss.GetRaw()))
+func (this *StringSlice) Map(mappers ...StringMapper) *StringSlice {
 
-	ss.Range(func(str string) {
-		for _, f := range menders {
-			res.Append(f.Something()(str))
+	res := MakeStringSlice(0, len(this.GetRaw()))
+
+	this.Range(func(val string) {
+		for i, f := range mappers {
+			val = f.Something()(i, val)
 		}
+		res.Append(val)
 	})
+
+	res = tmp
 
 	return res
 }
 
-func (ss *StringSlice) Len() int {
-	return len(ss.GetRaw())
+func (this *StringSlice) GetValMendedSlice(mappers ...StringMapper) *StringSlice {
+	return this.Map(StringValMenderBatchToStringMapper(mappers...)...)
 }
 
-func (ss *StringSlice) Cap() int {
-	return cap(ss.GetRaw())
+// let it crash apis
+func (this *StringSlice) First() string {
+	return this.At(0)
+}
+
+func (this *StringSlice) Last() string {
+	return this.At(this.Len() - 1)
+}
+
+func (this *StringSlice) Ats(is ...int) *StringSlice {
+	res := MakeStringSlice(0, len(is))
+	for _, i := range is {
+		res.Append(this.At(i))
+	}
+	return res
+}
+
+func (this *StringSlice) Slice(left, right int) *StringSlice {
+	return MakeStringSliceFromRaw(this.GetRaw()[left:right])
+}
+
+func (this *StringSlice) At(i int) string {
+	return this.GetRaw()[i]
+}
+
+func (this *StringSlice) Len() int {
+	return len(this.GetRaw())
+}
+
+func (this *StringSlice) Cap() int {
+	return cap(this.GetRaw())
 }

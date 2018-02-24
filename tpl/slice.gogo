@@ -1,3 +1,97 @@
 {{define "slice"}}
 
+{{- range $type := .AllTypes}}
+type {{$type.AliasType}}Slice struct {
+	raw []{{$type.OrigType}}
+}
+
+func Make{{$type.AliasType}}Slice(param ...int) *{{$type.AliasType}}Slice {
+	if len(param) > 2 || len(param) == 0 {
+		panic("fuck u")
+	}
+	p1, p2 := param[0], param[0]
+	if len(param) == 2 {
+		p2 = param[1]
+	}
+	return &{{$type.AliasType}}Slice{
+		raw: make([]{{$type.OrigType}}, p1, p2),
+	}
+}
+
+func Make{{$type.AliasType}}SliceFromRaw(raw []{{$type.OrigType}}) *{{$type.AliasType}}Slice {
+	if raw == nil {
+		raw = make([]{{$type.OrigType}}, 0)
+	}
+	return &{{$type.AliasType}}Slice{
+		raw: raw,
+	}
+}
+
+func (this *{{$type.AliasType}}Slice) Append(strs ...{{$type.OrigType}}) {
+	this.AppendIf(nil, strs...)
+}
+
+func (this *{{$type.AliasType}}Slice) AppendSlice(slice *{{$type.AliasType}}Slice) {
+	slice.Range(func(str {{$type.OrigType}}) {
+		this.Append(str)
+	})
+}
+
+func (this *{{$type.AliasType}}Slice) AppendIf(filter {{$type.AliasType}}Filter, strs ...{{$type.OrigType}}) {
+	Make{{$type.AliasType}}SliceFromRaw(strs).Range(func(str {{$type.OrigType}}) {
+		if !filter.Something()(str) {
+			this.raw = append(this.raw, str)
+		}
+	})
+}
+
+func (this *{{$type.AliasType}}Slice) Range(rangers ...{{$type.AliasType}}Ranger) {
+	for _, ranger := range rangers {
+		for _, str := range this.GetRaw() {
+			ranger.Something()(str)
+		}
+	}
+}
+
+func (this *{{$type.AliasType}}Slice) GetRaw() []{{$type.OrigType}} {
+	return this.raw
+}
+
+func (this *{{$type.AliasType}}Slice) GetFilteredSlice(filters ...{{$type.AliasType}}Filter) *{{$type.AliasType}}Slice {
+
+	res := Make{{$type.AliasType}}Slice(0, len(this.GetRaw()))
+
+	this.Range(func(str {{$type.OrigType}}) {
+		for _, f := range filters {
+			if !f.Something()(str) {
+				res.Append(str)
+			}
+		}
+	})
+
+	return res
+}
+
+func (this *{{$type.AliasType}}Slice) GetMendedSlice(menders ...{{$type.AliasType}}Mender) *{{$type.AliasType}}Slice {
+
+	res := Make{{$type.AliasType}}Slice(0, len(this.GetRaw()))
+
+	this.Range(func(str {{$type.OrigType}}) {
+		for _, f := range menders {
+			res.Append(f.Something()(str))
+		}
+	})
+
+	return res
+}
+
+func (this *{{$type.AliasType}}Slice) Len() int {
+	return len(this.GetRaw())
+}
+
+func (this *{{$type.AliasType}}Slice) Cap() int {
+	return cap(this.GetRaw())
+}
+
+{{end}}
 {{end}}
