@@ -1,11 +1,47 @@
 {{define "func"}}
 
 {{- range $type := .AllTypes}}
-type {{$type.AliasType}}Filter func({{$type.OrigType}}) bool
-type {{$type.AliasType}}Mender func({{$type.OrigType}}) {{$type.OrigType}}
-type {{$type.AliasType}}Ranger func({{$type.OrigType}})
+
+// autogen @type: {{$type.OrigType}}  @aliasPreix: {{$type.AliasType}}
+
+// common area
+type BoolFunc func() bool
+
+// ===  gen area =====
+type {{$type.AliasType}}Filter func(int, {{$type.OrigType}}) bool
+type {{$type.AliasType}}Mapper func(int, {{$type.OrigType}}) {{$type.OrigType}}
+type {{$type.AliasType}}Ranger func(int, {{$type.OrigType}})
 
 func (filter {{$type.AliasType}}Filter) Something() {{$type.AliasType}}Filter {
+	if filter == nil {
+		return func(int, {{$type.OrigType}}) bool {
+			return false
+		}
+	}
+	return filter
+}
+
+func (mapper {{$type.AliasType}}Mapper) Something() {{$type.AliasType}}Mapper {
+	if mapper == nil {
+		return func(i int, val {{$type.OrigType}}) {{$type.OrigType}} {
+			return val
+		}
+	}
+	return mapper
+}
+
+func (ranger {{$type.AliasType}}Ranger) Something() {{$type.AliasType}}Ranger {
+	if ranger == nil {
+		return func(int, {{$type.OrigType}}) {}
+	}
+	return ranger
+}
+
+type {{$type.AliasType}}ValFilter func({{$type.OrigType}}) bool
+type {{$type.AliasType}}ValMapper func({{$type.OrigType}}) {{$type.OrigType}}
+type {{$type.AliasType}}ValRanger func({{$type.OrigType}})
+
+func (filter {{$type.AliasType}}ValFilter) Something() {{$type.AliasType}}ValFilter {
 	if filter == nil {
 		return func({{$type.OrigType}}) bool {
 			return false
@@ -14,23 +50,72 @@ func (filter {{$type.AliasType}}Filter) Something() {{$type.AliasType}}Filter {
 	return filter
 }
 
-func (mender {{$type.AliasType}}Mender) Something() {{$type.AliasType}}Mender {
-	if mender == nil {
-		return func(str {{$type.OrigType}}) {{$type.OrigType}} {
-			return str
+func (mapper {{$type.AliasType}}ValMapper) Something() {{$type.AliasType}}ValMapper {
+	if mapper == nil {
+		return func(val {{$type.OrigType}}) {{$type.OrigType}} {
+			return val
 		}
 	}
-	return mender
+	return mapper
 }
 
-func (ranger {{$type.AliasType}}Ranger) Something() {{$type.AliasType}}Ranger {
+func (ranger {{$type.AliasType}}ValRanger) Something() {{$type.AliasType}}ValRanger {
 	if ranger == nil {
 		return func({{$type.OrigType}}) {}
 	}
 	return ranger
 }
+
+// ==== util func
+
+func {{$type.AliasType}}ValRangerTo{{$type.AliasType}}Ranger(ranger {{$type.AliasType}}ValRanger) {{$type.AliasType}}Ranger {
+	return func(i int, val {{$type.OrigType}}) {
+		ranger.Something()(val)
+	}
+}
+
+func {{$type.AliasType}}ValRangerBatchTo{{$type.AliasType}}Ranger(rangers ...{{$type.AliasType}}ValRanger) []{{$type.AliasType}}Ranger {
+	res := make([]{{$type.AliasType}}Ranger, len(rangers))
+	for _, ranger := range rangers {
+		res = append(res, {{$type.AliasType}}ValRangerTo{{$type.AliasType}}Ranger(ranger))
+	}
+	return res
+}
+
+func {{$type.AliasType}}ValMapperTo{{$type.AliasType}}Mapper(mapper {{$type.AliasType}}ValMapper) {{$type.AliasType}}Mapper {
+	return func(i int, val {{$type.OrigType}}) {{$type.OrigType}} {
+		return mapper.Something()(val)
+	}
+}
+
+func {{$type.AliasType}}ValMapperBatchTo{{$type.AliasType}}Mapper(mappers ...{{$type.AliasType}}ValMapper) []{{$type.AliasType}}Mapper {
+	res := make([]{{$type.AliasType}}Mapper, len(mappers))
+	for _, mapper := range mappers {
+		res = append(res, {{$type.AliasType}}ValMapperTo{{$type.AliasType}}Mapper(mapper))
+	}
+	return res
+}
+
+func {{$type.AliasType}}ValFilterTo{{$type.AliasType}}Filter(filter {{$type.AliasType}}ValFilter) {{$type.AliasType}}Filter {
+	return func(i int, val {{$type.OrigType}}) bool {
+		return filter.Something()(val)
+	}
+}
+
+func {{$type.AliasType}}ValFilterBatchTo{{$type.AliasType}}Filter(filters ...{{$type.AliasType}}ValFilter) []{{$type.AliasType}}Filter {
+	res := make([]{{$type.AliasType}}Filter, len(filters))
+	for _, filter := range filters {
+		res = append(res, {{$type.AliasType}}ValFilterTo{{$type.AliasType}}Filter(filter))
+	}
+	return res
+}
+
+func {{$type.AliasType}}If(f BoolFunc, a, b {{$type.OrigType}}) {{$type.OrigType}} {
+	if f() {
+		return a
+	}
+	return b
+}
+
 {{end}}
-
-
-
 {{end}}

@@ -1,10 +1,31 @@
 package render
 
-import "testing"
+import (
+	"io"
+	"os"
+	"testing"
+)
 
 func TestRender(t *testing.T) {
 	render := NewBagRender(&BagRenderConf{
-		TemplateFiles: tplFiles,
+		RenderInputTypes: []RenderInputType{
+			// RenderInputType{
+			// 	Type: "int",
+			// },
+			// RenderInputType{
+			// 	Type: "string",
+			// },
+			RenderInputType{
+				Package: "github.com/xxx/pkg",
+				Type:    "StructA",
+			},
+		},
 	})
-	t.Logf("%q", render.Render())
+
+	reader, e := render.Render()
+
+	t.Logf("%q", e)
+	io.Copy(os.Stdout, reader)
+
+	t.Log(render.RenderToFile("a.go"))
 }

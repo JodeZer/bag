@@ -1,6 +1,9 @@
 {{define "slice"}}
 
 {{- range $type := .AllTypes}}
+
+// autogen @type: {{$type.OrigType}}  @aliasPreix: {{$type.AliasType}}
+
 type {{$type.AliasType}}Slice struct {
 	raw []{{$type.OrigType}}
 }
@@ -27,62 +30,97 @@ func Make{{$type.AliasType}}SliceFromRaw(raw []{{$type.OrigType}}) *{{$type.Alia
 	}
 }
 
-func (this *{{$type.AliasType}}Slice) Append(strs ...{{$type.OrigType}}) {
-	this.AppendIf(nil, strs...)
+func (this *{{$type.AliasType}}Slice) Append(vals ...{{$type.OrigType}}) {
+	this.raw = append(this.raw, vals...)
 }
 
 func (this *{{$type.AliasType}}Slice) AppendSlice(slice *{{$type.AliasType}}Slice) {
-	slice.Range(func(str {{$type.OrigType}}) {
-		this.Append(str)
+	slice.RangeVal(func(val {{$type.OrigType}}) {
+		this.Append(val)
 	})
 }
 
-func (this *{{$type.AliasType}}Slice) AppendIf(filter {{$type.AliasType}}Filter, strs ...{{$type.OrigType}}) {
-	Make{{$type.AliasType}}SliceFromRaw(strs).Range(func(str {{$type.OrigType}}) {
-		if !filter.Something()(str) {
-			this.raw = append(this.raw, str)
-		}
-	})
+func (this *{{$type.AliasType}}Slice) AppendIf(filter {{$type.AliasType}}Filter, vals ...{{$type.OrigType}}) {
+	this.AppendSlice(Make{{$type.AliasType}}SliceFromRaw(vals).Filter(filter))
 }
 
 func (this *{{$type.AliasType}}Slice) Range(rangers ...{{$type.AliasType}}Ranger) {
 	for _, ranger := range rangers {
-		for _, str := range this.GetRaw() {
-			ranger.Something()(str)
+		for i, val := range this.GetRaw() {
+			ranger.Something()(i, val)
 		}
 	}
+}
+
+func (this *{{$type.AliasType}}Slice) RangeVal(rangers ...{{$type.AliasType}}ValRanger) {
+	this.Range({{$type.AliasType}}ValRangerBatchTo{{$type.AliasType}}Ranger(rangers...)...)
 }
 
 func (this *{{$type.AliasType}}Slice) GetRaw() []{{$type.OrigType}} {
 	return this.raw
 }
 
-func (this *{{$type.AliasType}}Slice) GetFilteredSlice(filters ...{{$type.AliasType}}Filter) *{{$type.AliasType}}Slice {
+func (this *{{$type.AliasType}}Slice) Filter(filters ...{{$type.AliasType}}Filter) *{{$type.AliasType}}Slice {
 
 	res := Make{{$type.AliasType}}Slice(0, len(this.GetRaw()))
 
-	this.Range(func(str {{$type.OrigType}}) {
+	this.Range(func(i int, val {{$type.OrigType}}) {
 		for _, f := range filters {
-			if !f.Something()(str) {
-				res.Append(str)
+			if f.Something()(i, val) {
+				return
 			}
 		}
+		res.Append(val)
 	})
 
 	return res
 }
 
-func (this *{{$type.AliasType}}Slice) GetMendedSlice(menders ...{{$type.AliasType}}Mender) *{{$type.AliasType}}Slice {
+func (this *{{$type.AliasType}}Slice) FilterVal(filters ...{{$type.AliasType}}ValFilter) *{{$type.AliasType}}Slice {
+	return this.Filter({{$type.AliasType}}ValFilterBatchTo{{$type.AliasType}}Filter(filters...)...)
+}
+
+func (this *{{$type.AliasType}}Slice) Map(mappers ...{{$type.AliasType}}Mapper) *{{$type.AliasType}}Slice {
 
 	res := Make{{$type.AliasType}}Slice(0, len(this.GetRaw()))
 
-	this.Range(func(str {{$type.OrigType}}) {
-		for _, f := range menders {
-			res.Append(f.Something()(str))
+	this.Range(func(i int, val {{$type.OrigType}}) {
+		for _, f := range mappers {
+			val = f.Something()(i, val)
 		}
+		res.Append(val)
 	})
 
 	return res
+}
+
+func (this *{{$type.AliasType}}Slice) MapVal(mappers ...{{$type.AliasType}}ValMapper) *{{$type.AliasType}}Slice {
+	return this.Map({{$type.AliasType}}ValMapperBatchTo{{$type.AliasType}}Mapper(mappers...)...)
+}
+
+// let it crash apis
+func (this *{{$type.AliasType}}Slice) First() {{$type.OrigType}} {
+	return this.At(0)
+}
+
+func (this *{{$type.AliasType}}Slice) Last() {{$type.OrigType}} {
+	return this.At(this.Len() - 1)
+}
+
+func (this *{{$type.AliasType}}Slice) Ats(is ...int) *{{$type.AliasType}}Slice {
+	res := Make{{$type.AliasType}}Slice(0, len(is))
+	for _, i := range is {
+		res.Append(this.At(i))
+	}
+	return res
+}
+
+func (this *{{$type.AliasType}}Slice) Slice(left, right int) *{{$type.AliasType}}Slice {
+	return Make{{$type.AliasType}}SliceFromRaw(this.GetRaw()[left:right])
+}
+
+func (this *{{$type.AliasType}}Slice) At(i int) {{$type.OrigType}} {
+	return this.GetRaw()[i]
 }
 
 func (this *{{$type.AliasType}}Slice) Len() int {
@@ -92,6 +130,7 @@ func (this *{{$type.AliasType}}Slice) Len() int {
 func (this *{{$type.AliasType}}Slice) Cap() int {
 	return cap(this.GetRaw())
 }
+
 
 {{end}}
 {{end}}
