@@ -7,5 +7,6 @@ build: buildBin
 	go build -o bin/bag cmd/*.go
 
 genLib: build
-	rm -r lib
+	rm  -r lib
 	./bin/bag vomit --onlyBuiltIn=true --to=lib
+	cp resource/gen_bag_test.go lib/bag && cd lib/bag && go test -v -run TestStringSlice

@@ -4394,9 +4394,6 @@ func (this *Complex128PtrSlice) Cap() int {
 
 // generate sliceFunc
 
-// common area
-type BoolFunc func() bool
-
 // autogen @type: string  @aliasPreix: String
 
 // ===  gen area =====
@@ -4502,7 +4499,7 @@ func StringValFilterBatchToStringFilter(filters ...StringValFilter) []StringFilt
 	return res
 }
 
-func StringIf(f BoolFunc, a, b string) string {
+func StringIf(f func() bool, a, b string) string {
 	if f() {
 		return a
 	}
@@ -4614,7 +4611,7 @@ func IntValFilterBatchToIntFilter(filters ...IntValFilter) []IntFilter {
 	return res
 }
 
-func IntIf(f BoolFunc, a, b int) int {
+func IntIf(f func() bool, a, b int) int {
 	if f() {
 		return a
 	}
@@ -4726,7 +4723,7 @@ func Int64ValFilterBatchToInt64Filter(filters ...Int64ValFilter) []Int64Filter {
 	return res
 }
 
-func Int64If(f BoolFunc, a, b int64) int64 {
+func Int64If(f func() bool, a, b int64) int64 {
 	if f() {
 		return a
 	}
@@ -4838,7 +4835,7 @@ func Int32ValFilterBatchToInt32Filter(filters ...Int32ValFilter) []Int32Filter {
 	return res
 }
 
-func Int32If(f BoolFunc, a, b int32) int32 {
+func Int32If(f func() bool, a, b int32) int32 {
 	if f() {
 		return a
 	}
@@ -4950,7 +4947,7 @@ func Int16ValFilterBatchToInt16Filter(filters ...Int16ValFilter) []Int16Filter {
 	return res
 }
 
-func Int16If(f BoolFunc, a, b int16) int16 {
+func Int16If(f func() bool, a, b int16) int16 {
 	if f() {
 		return a
 	}
@@ -5062,7 +5059,7 @@ func Int8ValFilterBatchToInt8Filter(filters ...Int8ValFilter) []Int8Filter {
 	return res
 }
 
-func Int8If(f BoolFunc, a, b int8) int8 {
+func Int8If(f func() bool, a, b int8) int8 {
 	if f() {
 		return a
 	}
@@ -5174,7 +5171,7 @@ func UintValFilterBatchToUintFilter(filters ...UintValFilter) []UintFilter {
 	return res
 }
 
-func UintIf(f BoolFunc, a, b uint) uint {
+func UintIf(f func() bool, a, b uint) uint {
 	if f() {
 		return a
 	}
@@ -5286,7 +5283,7 @@ func Uint8ValFilterBatchToUint8Filter(filters ...Uint8ValFilter) []Uint8Filter {
 	return res
 }
 
-func Uint8If(f BoolFunc, a, b uint8) uint8 {
+func Uint8If(f func() bool, a, b uint8) uint8 {
 	if f() {
 		return a
 	}
@@ -5398,7 +5395,7 @@ func Uint16ValFilterBatchToUint16Filter(filters ...Uint16ValFilter) []Uint16Filt
 	return res
 }
 
-func Uint16If(f BoolFunc, a, b uint16) uint16 {
+func Uint16If(f func() bool, a, b uint16) uint16 {
 	if f() {
 		return a
 	}
@@ -5510,7 +5507,7 @@ func Uint32ValFilterBatchToUint32Filter(filters ...Uint32ValFilter) []Uint32Filt
 	return res
 }
 
-func Uint32If(f BoolFunc, a, b uint32) uint32 {
+func Uint32If(f func() bool, a, b uint32) uint32 {
 	if f() {
 		return a
 	}
@@ -5622,7 +5619,7 @@ func Uint64ValFilterBatchToUint64Filter(filters ...Uint64ValFilter) []Uint64Filt
 	return res
 }
 
-func Uint64If(f BoolFunc, a, b uint64) uint64 {
+func Uint64If(f func() bool, a, b uint64) uint64 {
 	if f() {
 		return a
 	}
@@ -5734,7 +5731,7 @@ func Float32ValFilterBatchToFloat32Filter(filters ...Float32ValFilter) []Float32
 	return res
 }
 
-func Float32If(f BoolFunc, a, b float32) float32 {
+func Float32If(f func() bool, a, b float32) float32 {
 	if f() {
 		return a
 	}
@@ -5846,7 +5843,7 @@ func Float64ValFilterBatchToFloat64Filter(filters ...Float64ValFilter) []Float64
 	return res
 }
 
-func Float64If(f BoolFunc, a, b float64) float64 {
+func Float64If(f func() bool, a, b float64) float64 {
 	if f() {
 		return a
 	}
@@ -5958,7 +5955,7 @@ func BoolValFilterBatchToBoolFilter(filters ...BoolValFilter) []BoolFilter {
 	return res
 }
 
-func BoolIf(f BoolFunc, a, b bool) bool {
+func BoolIf(f func() bool, a, b bool) bool {
 	if f() {
 		return a
 	}
@@ -6070,7 +6067,7 @@ func RuneValFilterBatchToRuneFilter(filters ...RuneValFilter) []RuneFilter {
 	return res
 }
 
-func RuneIf(f BoolFunc, a, b rune) rune {
+func RuneIf(f func() bool, a, b rune) rune {
 	if f() {
 		return a
 	}
@@ -6182,7 +6179,7 @@ func Complex64ValFilterBatchToComplex64Filter(filters ...Complex64ValFilter) []C
 	return res
 }
 
-func Complex64If(f BoolFunc, a, b complex64) complex64 {
+func Complex64If(f func() bool, a, b complex64) complex64 {
 	if f() {
 		return a
 	}
@@ -6294,7 +6291,7 @@ func Complex128ValFilterBatchToComplex128Filter(filters ...Complex128ValFilter) 
 	return res
 }
 
-func Complex128If(f BoolFunc, a, b complex128) complex128 {
+func Complex128If(f func() bool, a, b complex128) complex128 {
 	if f() {
 		return a
 	}
@@ -6406,7 +6403,7 @@ func StringPtrValFilterBatchToStringPtrFilter(filters ...StringPtrValFilter) []S
 	return res
 }
 
-func StringPtrIf(f BoolFunc, a, b *string) *string {
+func StringPtrIf(f func() bool, a, b *string) *string {
 	if f() {
 		return a
 	}
@@ -6518,7 +6515,7 @@ func IntPtrValFilterBatchToIntPtrFilter(filters ...IntPtrValFilter) []IntPtrFilt
 	return res
 }
 
-func IntPtrIf(f BoolFunc, a, b *int) *int {
+func IntPtrIf(f func() bool, a, b *int) *int {
 	if f() {
 		return a
 	}
@@ -6630,7 +6627,7 @@ func Int64PtrValFilterBatchToInt64PtrFilter(filters ...Int64PtrValFilter) []Int6
 	return res
 }
 
-func Int64PtrIf(f BoolFunc, a, b *int64) *int64 {
+func Int64PtrIf(f func() bool, a, b *int64) *int64 {
 	if f() {
 		return a
 	}
@@ -6742,7 +6739,7 @@ func Int32PtrValFilterBatchToInt32PtrFilter(filters ...Int32PtrValFilter) []Int3
 	return res
 }
 
-func Int32PtrIf(f BoolFunc, a, b *int32) *int32 {
+func Int32PtrIf(f func() bool, a, b *int32) *int32 {
 	if f() {
 		return a
 	}
@@ -6854,7 +6851,7 @@ func Int16PtrValFilterBatchToInt16PtrFilter(filters ...Int16PtrValFilter) []Int1
 	return res
 }
 
-func Int16PtrIf(f BoolFunc, a, b *int16) *int16 {
+func Int16PtrIf(f func() bool, a, b *int16) *int16 {
 	if f() {
 		return a
 	}
@@ -6966,7 +6963,7 @@ func Int8PtrValFilterBatchToInt8PtrFilter(filters ...Int8PtrValFilter) []Int8Ptr
 	return res
 }
 
-func Int8PtrIf(f BoolFunc, a, b *int8) *int8 {
+func Int8PtrIf(f func() bool, a, b *int8) *int8 {
 	if f() {
 		return a
 	}
@@ -7078,7 +7075,7 @@ func UintPtrValFilterBatchToUintPtrFilter(filters ...UintPtrValFilter) []UintPtr
 	return res
 }
 
-func UintPtrIf(f BoolFunc, a, b *uint) *uint {
+func UintPtrIf(f func() bool, a, b *uint) *uint {
 	if f() {
 		return a
 	}
@@ -7190,7 +7187,7 @@ func Uint8PtrValFilterBatchToUint8PtrFilter(filters ...Uint8PtrValFilter) []Uint
 	return res
 }
 
-func Uint8PtrIf(f BoolFunc, a, b *uint8) *uint8 {
+func Uint8PtrIf(f func() bool, a, b *uint8) *uint8 {
 	if f() {
 		return a
 	}
@@ -7302,7 +7299,7 @@ func Uint16PtrValFilterBatchToUint16PtrFilter(filters ...Uint16PtrValFilter) []U
 	return res
 }
 
-func Uint16PtrIf(f BoolFunc, a, b *uint16) *uint16 {
+func Uint16PtrIf(f func() bool, a, b *uint16) *uint16 {
 	if f() {
 		return a
 	}
@@ -7414,7 +7411,7 @@ func Uint32PtrValFilterBatchToUint32PtrFilter(filters ...Uint32PtrValFilter) []U
 	return res
 }
 
-func Uint32PtrIf(f BoolFunc, a, b *uint32) *uint32 {
+func Uint32PtrIf(f func() bool, a, b *uint32) *uint32 {
 	if f() {
 		return a
 	}
@@ -7526,7 +7523,7 @@ func Uint64PtrValFilterBatchToUint64PtrFilter(filters ...Uint64PtrValFilter) []U
 	return res
 }
 
-func Uint64PtrIf(f BoolFunc, a, b *uint64) *uint64 {
+func Uint64PtrIf(f func() bool, a, b *uint64) *uint64 {
 	if f() {
 		return a
 	}
@@ -7638,7 +7635,7 @@ func Float32PtrValFilterBatchToFloat32PtrFilter(filters ...Float32PtrValFilter) 
 	return res
 }
 
-func Float32PtrIf(f BoolFunc, a, b *float32) *float32 {
+func Float32PtrIf(f func() bool, a, b *float32) *float32 {
 	if f() {
 		return a
 	}
@@ -7750,7 +7747,7 @@ func Float64PtrValFilterBatchToFloat64PtrFilter(filters ...Float64PtrValFilter) 
 	return res
 }
 
-func Float64PtrIf(f BoolFunc, a, b *float64) *float64 {
+func Float64PtrIf(f func() bool, a, b *float64) *float64 {
 	if f() {
 		return a
 	}
@@ -7862,7 +7859,7 @@ func BoolPtrValFilterBatchToBoolPtrFilter(filters ...BoolPtrValFilter) []BoolPtr
 	return res
 }
 
-func BoolPtrIf(f BoolFunc, a, b *bool) *bool {
+func BoolPtrIf(f func() bool, a, b *bool) *bool {
 	if f() {
 		return a
 	}
@@ -7974,7 +7971,7 @@ func RunePtrValFilterBatchToRunePtrFilter(filters ...RunePtrValFilter) []RunePtr
 	return res
 }
 
-func RunePtrIf(f BoolFunc, a, b *rune) *rune {
+func RunePtrIf(f func() bool, a, b *rune) *rune {
 	if f() {
 		return a
 	}
@@ -8086,7 +8083,7 @@ func Complex64PtrValFilterBatchToComplex64PtrFilter(filters ...Complex64PtrValFi
 	return res
 }
 
-func Complex64PtrIf(f BoolFunc, a, b *complex64) *complex64 {
+func Complex64PtrIf(f func() bool, a, b *complex64) *complex64 {
 	if f() {
 		return a
 	}
@@ -8198,7 +8195,7 @@ func Complex128PtrValFilterBatchToComplex128PtrFilter(filters ...Complex128PtrVa
 	return res
 }
 
-func Complex128PtrIf(f BoolFunc, a, b *complex128) *complex128 {
+func Complex128PtrIf(f func() bool, a, b *complex128) *complex128 {
 	if f() {
 		return a
 	}
