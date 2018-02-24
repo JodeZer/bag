@@ -2070,13 +2070,13 @@ func (this *Complex64Slice) Cap() int {
 	return cap(this.GetRaw())
 }
 
-// autogen @type: complex32  @aliasPreix: Complex32
+// autogen @type: complex128  @aliasPreix: Complex128
 
-type Complex32Slice struct {
-	raw []complex32
+type Complex128Slice struct {
+	raw []complex128
 }
 
-func MakeComplex32Slice(param ...int) *Complex32Slice {
+func MakeComplex128Slice(param ...int) *Complex128Slice {
 	if len(param) > 2 || len(param) == 0 {
 		panic("fuck u")
 	}
@@ -2084,35 +2084,35 @@ func MakeComplex32Slice(param ...int) *Complex32Slice {
 	if len(param) == 2 {
 		p2 = param[1]
 	}
-	return &Complex32Slice{
-		raw: make([]complex32, p1, p2),
+	return &Complex128Slice{
+		raw: make([]complex128, p1, p2),
 	}
 }
 
-func MakeComplex32SliceFromRaw(raw []complex32) *Complex32Slice {
+func MakeComplex128SliceFromRaw(raw []complex128) *Complex128Slice {
 	if raw == nil {
-		raw = make([]complex32, 0)
+		raw = make([]complex128, 0)
 	}
-	return &Complex32Slice{
+	return &Complex128Slice{
 		raw: raw,
 	}
 }
 
-func (this *Complex32Slice) Append(vals ...complex32) {
+func (this *Complex128Slice) Append(vals ...complex128) {
 	this.raw = append(this.raw, vals...)
 }
 
-func (this *Complex32Slice) AppendSlice(slice *Complex32Slice) {
-	slice.RangeVal(func(val complex32) {
+func (this *Complex128Slice) AppendSlice(slice *Complex128Slice) {
+	slice.RangeVal(func(val complex128) {
 		this.Append(val)
 	})
 }
 
-func (this *Complex32Slice) AppendIf(filter Complex32Filter, vals ...complex32) {
-	this.AppendSlice(MakeComplex32SliceFromRaw(vals).Filter(filter))
+func (this *Complex128Slice) AppendIf(filter Complex128Filter, vals ...complex128) {
+	this.AppendSlice(MakeComplex128SliceFromRaw(vals).Filter(filter))
 }
 
-func (this *Complex32Slice) Range(rangers ...Complex32Ranger) {
+func (this *Complex128Slice) Range(rangers ...Complex128Ranger) {
 	for _, ranger := range rangers {
 		for i, val := range this.GetRaw() {
 			ranger.Something()(i, val)
@@ -2120,19 +2120,19 @@ func (this *Complex32Slice) Range(rangers ...Complex32Ranger) {
 	}
 }
 
-func (this *Complex32Slice) RangeVal(rangers ...Complex32ValRanger) {
-	this.Range(Complex32ValRangerBatchToComplex32Ranger(rangers...)...)
+func (this *Complex128Slice) RangeVal(rangers ...Complex128ValRanger) {
+	this.Range(Complex128ValRangerBatchToComplex128Ranger(rangers...)...)
 }
 
-func (this *Complex32Slice) GetRaw() []complex32 {
+func (this *Complex128Slice) GetRaw() []complex128 {
 	return this.raw
 }
 
-func (this *Complex32Slice) Filter(filters ...Complex32Filter) *Complex32Slice {
+func (this *Complex128Slice) Filter(filters ...Complex128Filter) *Complex128Slice {
 
-	res := MakeComplex32Slice(0, len(this.GetRaw()))
+	res := MakeComplex128Slice(0, len(this.GetRaw()))
 
-	this.Range(func(i int, val complex32) {
+	this.Range(func(i int, val complex128) {
 		for _, f := range filters {
 			if f.Something()(i, val) {
 				return
@@ -2144,15 +2144,15 @@ func (this *Complex32Slice) Filter(filters ...Complex32Filter) *Complex32Slice {
 	return res
 }
 
-func (this *Complex32Slice) FilterVal(filters ...Complex32ValFilter) *Complex32Slice {
-	return this.Filter(Complex32ValFilterBatchToComplex32Filter(filters...)...)
+func (this *Complex128Slice) FilterVal(filters ...Complex128ValFilter) *Complex128Slice {
+	return this.Filter(Complex128ValFilterBatchToComplex128Filter(filters...)...)
 }
 
-func (this *Complex32Slice) Map(mappers ...Complex32Mapper) *Complex32Slice {
+func (this *Complex128Slice) Map(mappers ...Complex128Mapper) *Complex128Slice {
 
-	res := MakeComplex32Slice(0, len(this.GetRaw()))
+	res := MakeComplex128Slice(0, len(this.GetRaw()))
 
-	this.Range(func(i int, val complex32) {
+	this.Range(func(i int, val complex128) {
 		for _, f := range mappers {
 			val = f.Something()(i, val)
 		}
@@ -2162,40 +2162,40 @@ func (this *Complex32Slice) Map(mappers ...Complex32Mapper) *Complex32Slice {
 	return res
 }
 
-func (this *Complex32Slice) MapVal(mappers ...Complex32ValMapper) *Complex32Slice {
-	return this.Map(Complex32ValMapperBatchToComplex32Mapper(mappers...)...)
+func (this *Complex128Slice) MapVal(mappers ...Complex128ValMapper) *Complex128Slice {
+	return this.Map(Complex128ValMapperBatchToComplex128Mapper(mappers...)...)
 }
 
 // let it crash apis
-func (this *Complex32Slice) First() complex32 {
+func (this *Complex128Slice) First() complex128 {
 	return this.At(0)
 }
 
-func (this *Complex32Slice) Last() complex32 {
+func (this *Complex128Slice) Last() complex128 {
 	return this.At(this.Len() - 1)
 }
 
-func (this *Complex32Slice) Ats(is ...int) *Complex32Slice {
-	res := MakeComplex32Slice(0, len(is))
+func (this *Complex128Slice) Ats(is ...int) *Complex128Slice {
+	res := MakeComplex128Slice(0, len(is))
 	for _, i := range is {
 		res.Append(this.At(i))
 	}
 	return res
 }
 
-func (this *Complex32Slice) Slice(left, right int) *Complex32Slice {
-	return MakeComplex32SliceFromRaw(this.GetRaw()[left:right])
+func (this *Complex128Slice) Slice(left, right int) *Complex128Slice {
+	return MakeComplex128SliceFromRaw(this.GetRaw()[left:right])
 }
 
-func (this *Complex32Slice) At(i int) complex32 {
+func (this *Complex128Slice) At(i int) complex128 {
 	return this.GetRaw()[i]
 }
 
-func (this *Complex32Slice) Len() int {
+func (this *Complex128Slice) Len() int {
 	return len(this.GetRaw())
 }
 
-func (this *Complex32Slice) Cap() int {
+func (this *Complex128Slice) Cap() int {
 	return cap(this.GetRaw())
 }
 
@@ -4263,13 +4263,13 @@ func (this *Complex64PtrSlice) Cap() int {
 	return cap(this.GetRaw())
 }
 
-// autogen @type: *complex32  @aliasPreix: Complex32Ptr
+// autogen @type: *complex128  @aliasPreix: Complex128Ptr
 
-type Complex32PtrSlice struct {
-	raw []*complex32
+type Complex128PtrSlice struct {
+	raw []*complex128
 }
 
-func MakeComplex32PtrSlice(param ...int) *Complex32PtrSlice {
+func MakeComplex128PtrSlice(param ...int) *Complex128PtrSlice {
 	if len(param) > 2 || len(param) == 0 {
 		panic("fuck u")
 	}
@@ -4277,35 +4277,35 @@ func MakeComplex32PtrSlice(param ...int) *Complex32PtrSlice {
 	if len(param) == 2 {
 		p2 = param[1]
 	}
-	return &Complex32PtrSlice{
-		raw: make([]*complex32, p1, p2),
+	return &Complex128PtrSlice{
+		raw: make([]*complex128, p1, p2),
 	}
 }
 
-func MakeComplex32PtrSliceFromRaw(raw []*complex32) *Complex32PtrSlice {
+func MakeComplex128PtrSliceFromRaw(raw []*complex128) *Complex128PtrSlice {
 	if raw == nil {
-		raw = make([]*complex32, 0)
+		raw = make([]*complex128, 0)
 	}
-	return &Complex32PtrSlice{
+	return &Complex128PtrSlice{
 		raw: raw,
 	}
 }
 
-func (this *Complex32PtrSlice) Append(vals ...*complex32) {
+func (this *Complex128PtrSlice) Append(vals ...*complex128) {
 	this.raw = append(this.raw, vals...)
 }
 
-func (this *Complex32PtrSlice) AppendSlice(slice *Complex32PtrSlice) {
-	slice.RangeVal(func(val *complex32) {
+func (this *Complex128PtrSlice) AppendSlice(slice *Complex128PtrSlice) {
+	slice.RangeVal(func(val *complex128) {
 		this.Append(val)
 	})
 }
 
-func (this *Complex32PtrSlice) AppendIf(filter Complex32PtrFilter, vals ...*complex32) {
-	this.AppendSlice(MakeComplex32PtrSliceFromRaw(vals).Filter(filter))
+func (this *Complex128PtrSlice) AppendIf(filter Complex128PtrFilter, vals ...*complex128) {
+	this.AppendSlice(MakeComplex128PtrSliceFromRaw(vals).Filter(filter))
 }
 
-func (this *Complex32PtrSlice) Range(rangers ...Complex32PtrRanger) {
+func (this *Complex128PtrSlice) Range(rangers ...Complex128PtrRanger) {
 	for _, ranger := range rangers {
 		for i, val := range this.GetRaw() {
 			ranger.Something()(i, val)
@@ -4313,19 +4313,19 @@ func (this *Complex32PtrSlice) Range(rangers ...Complex32PtrRanger) {
 	}
 }
 
-func (this *Complex32PtrSlice) RangeVal(rangers ...Complex32PtrValRanger) {
-	this.Range(Complex32PtrValRangerBatchToComplex32PtrRanger(rangers...)...)
+func (this *Complex128PtrSlice) RangeVal(rangers ...Complex128PtrValRanger) {
+	this.Range(Complex128PtrValRangerBatchToComplex128PtrRanger(rangers...)...)
 }
 
-func (this *Complex32PtrSlice) GetRaw() []*complex32 {
+func (this *Complex128PtrSlice) GetRaw() []*complex128 {
 	return this.raw
 }
 
-func (this *Complex32PtrSlice) Filter(filters ...Complex32PtrFilter) *Complex32PtrSlice {
+func (this *Complex128PtrSlice) Filter(filters ...Complex128PtrFilter) *Complex128PtrSlice {
 
-	res := MakeComplex32PtrSlice(0, len(this.GetRaw()))
+	res := MakeComplex128PtrSlice(0, len(this.GetRaw()))
 
-	this.Range(func(i int, val *complex32) {
+	this.Range(func(i int, val *complex128) {
 		for _, f := range filters {
 			if f.Something()(i, val) {
 				return
@@ -4337,15 +4337,15 @@ func (this *Complex32PtrSlice) Filter(filters ...Complex32PtrFilter) *Complex32P
 	return res
 }
 
-func (this *Complex32PtrSlice) FilterVal(filters ...Complex32PtrValFilter) *Complex32PtrSlice {
-	return this.Filter(Complex32PtrValFilterBatchToComplex32PtrFilter(filters...)...)
+func (this *Complex128PtrSlice) FilterVal(filters ...Complex128PtrValFilter) *Complex128PtrSlice {
+	return this.Filter(Complex128PtrValFilterBatchToComplex128PtrFilter(filters...)...)
 }
 
-func (this *Complex32PtrSlice) Map(mappers ...Complex32PtrMapper) *Complex32PtrSlice {
+func (this *Complex128PtrSlice) Map(mappers ...Complex128PtrMapper) *Complex128PtrSlice {
 
-	res := MakeComplex32PtrSlice(0, len(this.GetRaw()))
+	res := MakeComplex128PtrSlice(0, len(this.GetRaw()))
 
-	this.Range(func(i int, val *complex32) {
+	this.Range(func(i int, val *complex128) {
 		for _, f := range mappers {
 			val = f.Something()(i, val)
 		}
@@ -4355,40 +4355,40 @@ func (this *Complex32PtrSlice) Map(mappers ...Complex32PtrMapper) *Complex32PtrS
 	return res
 }
 
-func (this *Complex32PtrSlice) MapVal(mappers ...Complex32PtrValMapper) *Complex32PtrSlice {
-	return this.Map(Complex32PtrValMapperBatchToComplex32PtrMapper(mappers...)...)
+func (this *Complex128PtrSlice) MapVal(mappers ...Complex128PtrValMapper) *Complex128PtrSlice {
+	return this.Map(Complex128PtrValMapperBatchToComplex128PtrMapper(mappers...)...)
 }
 
 // let it crash apis
-func (this *Complex32PtrSlice) First() *complex32 {
+func (this *Complex128PtrSlice) First() *complex128 {
 	return this.At(0)
 }
 
-func (this *Complex32PtrSlice) Last() *complex32 {
+func (this *Complex128PtrSlice) Last() *complex128 {
 	return this.At(this.Len() - 1)
 }
 
-func (this *Complex32PtrSlice) Ats(is ...int) *Complex32PtrSlice {
-	res := MakeComplex32PtrSlice(0, len(is))
+func (this *Complex128PtrSlice) Ats(is ...int) *Complex128PtrSlice {
+	res := MakeComplex128PtrSlice(0, len(is))
 	for _, i := range is {
 		res.Append(this.At(i))
 	}
 	return res
 }
 
-func (this *Complex32PtrSlice) Slice(left, right int) *Complex32PtrSlice {
-	return MakeComplex32PtrSliceFromRaw(this.GetRaw()[left:right])
+func (this *Complex128PtrSlice) Slice(left, right int) *Complex128PtrSlice {
+	return MakeComplex128PtrSliceFromRaw(this.GetRaw()[left:right])
 }
 
-func (this *Complex32PtrSlice) At(i int) *complex32 {
+func (this *Complex128PtrSlice) At(i int) *complex128 {
 	return this.GetRaw()[i]
 }
 
-func (this *Complex32PtrSlice) Len() int {
+func (this *Complex128PtrSlice) Len() int {
 	return len(this.GetRaw())
 }
 
-func (this *Complex32PtrSlice) Cap() int {
+func (this *Complex128PtrSlice) Cap() int {
 	return cap(this.GetRaw())
 }
 
@@ -6189,112 +6189,112 @@ func Complex64If(f BoolFunc, a, b complex64) complex64 {
 	return b
 }
 
-// autogen @type: complex32  @aliasPreix: Complex32
+// autogen @type: complex128  @aliasPreix: Complex128
 
 // ===  gen area =====
-type Complex32Filter func(int, complex32) bool
-type Complex32Mapper func(int, complex32) complex32
-type Complex32Ranger func(int, complex32)
+type Complex128Filter func(int, complex128) bool
+type Complex128Mapper func(int, complex128) complex128
+type Complex128Ranger func(int, complex128)
 
-func (filter Complex32Filter) Something() Complex32Filter {
+func (filter Complex128Filter) Something() Complex128Filter {
 	if filter == nil {
-		return func(int, complex32) bool {
+		return func(int, complex128) bool {
 			return false
 		}
 	}
 	return filter
 }
 
-func (mapper Complex32Mapper) Something() Complex32Mapper {
+func (mapper Complex128Mapper) Something() Complex128Mapper {
 	if mapper == nil {
-		return func(i int, val complex32) complex32 {
+		return func(i int, val complex128) complex128 {
 			return val
 		}
 	}
 	return mapper
 }
 
-func (ranger Complex32Ranger) Something() Complex32Ranger {
+func (ranger Complex128Ranger) Something() Complex128Ranger {
 	if ranger == nil {
-		return func(int, complex32) {}
+		return func(int, complex128) {}
 	}
 	return ranger
 }
 
-type Complex32ValFilter func(complex32) bool
-type Complex32ValMapper func(complex32) complex32
-type Complex32ValRanger func(complex32)
+type Complex128ValFilter func(complex128) bool
+type Complex128ValMapper func(complex128) complex128
+type Complex128ValRanger func(complex128)
 
-func (filter Complex32ValFilter) Something() Complex32ValFilter {
+func (filter Complex128ValFilter) Something() Complex128ValFilter {
 	if filter == nil {
-		return func(complex32) bool {
+		return func(complex128) bool {
 			return false
 		}
 	}
 	return filter
 }
 
-func (mapper Complex32ValMapper) Something() Complex32ValMapper {
+func (mapper Complex128ValMapper) Something() Complex128ValMapper {
 	if mapper == nil {
-		return func(val complex32) complex32 {
+		return func(val complex128) complex128 {
 			return val
 		}
 	}
 	return mapper
 }
 
-func (ranger Complex32ValRanger) Something() Complex32ValRanger {
+func (ranger Complex128ValRanger) Something() Complex128ValRanger {
 	if ranger == nil {
-		return func(complex32) {}
+		return func(complex128) {}
 	}
 	return ranger
 }
 
 // ==== util func
 
-func Complex32ValRangerToComplex32Ranger(ranger Complex32ValRanger) Complex32Ranger {
-	return func(i int, val complex32) {
+func Complex128ValRangerToComplex128Ranger(ranger Complex128ValRanger) Complex128Ranger {
+	return func(i int, val complex128) {
 		ranger.Something()(val)
 	}
 }
 
-func Complex32ValRangerBatchToComplex32Ranger(rangers ...Complex32ValRanger) []Complex32Ranger {
-	res := make([]Complex32Ranger, len(rangers))
+func Complex128ValRangerBatchToComplex128Ranger(rangers ...Complex128ValRanger) []Complex128Ranger {
+	res := make([]Complex128Ranger, len(rangers))
 	for _, ranger := range rangers {
-		res = append(res, Complex32ValRangerToComplex32Ranger(ranger))
+		res = append(res, Complex128ValRangerToComplex128Ranger(ranger))
 	}
 	return res
 }
 
-func Complex32ValMapperToComplex32Mapper(mapper Complex32ValMapper) Complex32Mapper {
-	return func(i int, val complex32) complex32 {
+func Complex128ValMapperToComplex128Mapper(mapper Complex128ValMapper) Complex128Mapper {
+	return func(i int, val complex128) complex128 {
 		return mapper.Something()(val)
 	}
 }
 
-func Complex32ValMapperBatchToComplex32Mapper(mappers ...Complex32ValMapper) []Complex32Mapper {
-	res := make([]Complex32Mapper, len(mappers))
+func Complex128ValMapperBatchToComplex128Mapper(mappers ...Complex128ValMapper) []Complex128Mapper {
+	res := make([]Complex128Mapper, len(mappers))
 	for _, mapper := range mappers {
-		res = append(res, Complex32ValMapperToComplex32Mapper(mapper))
+		res = append(res, Complex128ValMapperToComplex128Mapper(mapper))
 	}
 	return res
 }
 
-func Complex32ValFilterToComplex32Filter(filter Complex32ValFilter) Complex32Filter {
-	return func(i int, val complex32) bool {
+func Complex128ValFilterToComplex128Filter(filter Complex128ValFilter) Complex128Filter {
+	return func(i int, val complex128) bool {
 		return filter.Something()(val)
 	}
 }
 
-func Complex32ValFilterBatchToComplex32Filter(filters ...Complex32ValFilter) []Complex32Filter {
-	res := make([]Complex32Filter, len(filters))
+func Complex128ValFilterBatchToComplex128Filter(filters ...Complex128ValFilter) []Complex128Filter {
+	res := make([]Complex128Filter, len(filters))
 	for _, filter := range filters {
-		res = append(res, Complex32ValFilterToComplex32Filter(filter))
+		res = append(res, Complex128ValFilterToComplex128Filter(filter))
 	}
 	return res
 }
 
-func Complex32If(f BoolFunc, a, b complex32) complex32 {
+func Complex128If(f BoolFunc, a, b complex128) complex128 {
 	if f() {
 		return a
 	}
@@ -8093,112 +8093,112 @@ func Complex64PtrIf(f BoolFunc, a, b *complex64) *complex64 {
 	return b
 }
 
-// autogen @type: *complex32  @aliasPreix: Complex32Ptr
+// autogen @type: *complex128  @aliasPreix: Complex128Ptr
 
 // ===  gen area =====
-type Complex32PtrFilter func(int, *complex32) bool
-type Complex32PtrMapper func(int, *complex32) *complex32
-type Complex32PtrRanger func(int, *complex32)
+type Complex128PtrFilter func(int, *complex128) bool
+type Complex128PtrMapper func(int, *complex128) *complex128
+type Complex128PtrRanger func(int, *complex128)
 
-func (filter Complex32PtrFilter) Something() Complex32PtrFilter {
+func (filter Complex128PtrFilter) Something() Complex128PtrFilter {
 	if filter == nil {
-		return func(int, *complex32) bool {
+		return func(int, *complex128) bool {
 			return false
 		}
 	}
 	return filter
 }
 
-func (mapper Complex32PtrMapper) Something() Complex32PtrMapper {
+func (mapper Complex128PtrMapper) Something() Complex128PtrMapper {
 	if mapper == nil {
-		return func(i int, val *complex32) *complex32 {
+		return func(i int, val *complex128) *complex128 {
 			return val
 		}
 	}
 	return mapper
 }
 
-func (ranger Complex32PtrRanger) Something() Complex32PtrRanger {
+func (ranger Complex128PtrRanger) Something() Complex128PtrRanger {
 	if ranger == nil {
-		return func(int, *complex32) {}
+		return func(int, *complex128) {}
 	}
 	return ranger
 }
 
-type Complex32PtrValFilter func(*complex32) bool
-type Complex32PtrValMapper func(*complex32) *complex32
-type Complex32PtrValRanger func(*complex32)
+type Complex128PtrValFilter func(*complex128) bool
+type Complex128PtrValMapper func(*complex128) *complex128
+type Complex128PtrValRanger func(*complex128)
 
-func (filter Complex32PtrValFilter) Something() Complex32PtrValFilter {
+func (filter Complex128PtrValFilter) Something() Complex128PtrValFilter {
 	if filter == nil {
-		return func(*complex32) bool {
+		return func(*complex128) bool {
 			return false
 		}
 	}
 	return filter
 }
 
-func (mapper Complex32PtrValMapper) Something() Complex32PtrValMapper {
+func (mapper Complex128PtrValMapper) Something() Complex128PtrValMapper {
 	if mapper == nil {
-		return func(val *complex32) *complex32 {
+		return func(val *complex128) *complex128 {
 			return val
 		}
 	}
 	return mapper
 }
 
-func (ranger Complex32PtrValRanger) Something() Complex32PtrValRanger {
+func (ranger Complex128PtrValRanger) Something() Complex128PtrValRanger {
 	if ranger == nil {
-		return func(*complex32) {}
+		return func(*complex128) {}
 	}
 	return ranger
 }
 
 // ==== util func
 
-func Complex32PtrValRangerToComplex32PtrRanger(ranger Complex32PtrValRanger) Complex32PtrRanger {
-	return func(i int, val *complex32) {
+func Complex128PtrValRangerToComplex128PtrRanger(ranger Complex128PtrValRanger) Complex128PtrRanger {
+	return func(i int, val *complex128) {
 		ranger.Something()(val)
 	}
 }
 
-func Complex32PtrValRangerBatchToComplex32PtrRanger(rangers ...Complex32PtrValRanger) []Complex32PtrRanger {
-	res := make([]Complex32PtrRanger, len(rangers))
+func Complex128PtrValRangerBatchToComplex128PtrRanger(rangers ...Complex128PtrValRanger) []Complex128PtrRanger {
+	res := make([]Complex128PtrRanger, len(rangers))
 	for _, ranger := range rangers {
-		res = append(res, Complex32PtrValRangerToComplex32PtrRanger(ranger))
+		res = append(res, Complex128PtrValRangerToComplex128PtrRanger(ranger))
 	}
 	return res
 }
 
-func Complex32PtrValMapperToComplex32PtrMapper(mapper Complex32PtrValMapper) Complex32PtrMapper {
-	return func(i int, val *complex32) *complex32 {
+func Complex128PtrValMapperToComplex128PtrMapper(mapper Complex128PtrValMapper) Complex128PtrMapper {
+	return func(i int, val *complex128) *complex128 {
 		return mapper.Something()(val)
 	}
 }
 
-func Complex32PtrValMapperBatchToComplex32PtrMapper(mappers ...Complex32PtrValMapper) []Complex32PtrMapper {
-	res := make([]Complex32PtrMapper, len(mappers))
+func Complex128PtrValMapperBatchToComplex128PtrMapper(mappers ...Complex128PtrValMapper) []Complex128PtrMapper {
+	res := make([]Complex128PtrMapper, len(mappers))
 	for _, mapper := range mappers {
-		res = append(res, Complex32PtrValMapperToComplex32PtrMapper(mapper))
+		res = append(res, Complex128PtrValMapperToComplex128PtrMapper(mapper))
 	}
 	return res
 }
 
-func Complex32PtrValFilterToComplex32PtrFilter(filter Complex32PtrValFilter) Complex32PtrFilter {
-	return func(i int, val *complex32) bool {
+func Complex128PtrValFilterToComplex128PtrFilter(filter Complex128PtrValFilter) Complex128PtrFilter {
+	return func(i int, val *complex128) bool {
 		return filter.Something()(val)
 	}
 }
 
-func Complex32PtrValFilterBatchToComplex32PtrFilter(filters ...Complex32PtrValFilter) []Complex32PtrFilter {
-	res := make([]Complex32PtrFilter, len(filters))
+func Complex128PtrValFilterBatchToComplex128PtrFilter(filters ...Complex128PtrValFilter) []Complex128PtrFilter {
+	res := make([]Complex128PtrFilter, len(filters))
 	for _, filter := range filters {
-		res = append(res, Complex32PtrValFilterToComplex32PtrFilter(filter))
+		res = append(res, Complex128PtrValFilterToComplex128PtrFilter(filter))
 	}
 	return res
 }
 
-func Complex32PtrIf(f BoolFunc, a, b *complex32) *complex32 {
+func Complex128PtrIf(f BoolFunc, a, b *complex128) *complex128 {
 	if f() {
 		return a
 	}

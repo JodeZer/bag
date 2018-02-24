@@ -21,7 +21,7 @@ var buildInTypes = []string{
 	"bool",
 	"rune",
 	"complex64",
-	"complex32",
+	"complex128",
 }
 
 var allBuiltInRenderType []render.RenderInputType
