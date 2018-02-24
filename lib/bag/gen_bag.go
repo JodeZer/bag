@@ -1,5 +1,7 @@
 package bag
 
+import ()
+
 // auto generate by bag
 
 // generate slice
@@ -4392,10 +4394,10 @@ func (this *Complex32PtrSlice) Cap() int {
 
 // generate sliceFunc
 
-// autogen @type: string  @aliasPreix: String
-
 // common area
 type BoolFunc func() bool
+
+// autogen @type: string  @aliasPreix: String
 
 // ===  gen area =====
 type StringFilter func(int, string) bool
@@ -4509,9 +4511,6 @@ func StringIf(f BoolFunc, a, b string) string {
 
 // autogen @type: int  @aliasPreix: Int
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type IntFilter func(int, int) bool
 type IntMapper func(int, int) int
@@ -4623,9 +4622,6 @@ func IntIf(f BoolFunc, a, b int) int {
 }
 
 // autogen @type: int64  @aliasPreix: Int64
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Int64Filter func(int, int64) bool
@@ -4739,9 +4735,6 @@ func Int64If(f BoolFunc, a, b int64) int64 {
 
 // autogen @type: int32  @aliasPreix: Int32
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Int32Filter func(int, int32) bool
 type Int32Mapper func(int, int32) int32
@@ -4853,9 +4846,6 @@ func Int32If(f BoolFunc, a, b int32) int32 {
 }
 
 // autogen @type: int16  @aliasPreix: Int16
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Int16Filter func(int, int16) bool
@@ -4969,9 +4959,6 @@ func Int16If(f BoolFunc, a, b int16) int16 {
 
 // autogen @type: int8  @aliasPreix: Int8
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Int8Filter func(int, int8) bool
 type Int8Mapper func(int, int8) int8
@@ -5083,9 +5070,6 @@ func Int8If(f BoolFunc, a, b int8) int8 {
 }
 
 // autogen @type: uint  @aliasPreix: Uint
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type UintFilter func(int, uint) bool
@@ -5199,9 +5183,6 @@ func UintIf(f BoolFunc, a, b uint) uint {
 
 // autogen @type: uint8  @aliasPreix: Uint8
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Uint8Filter func(int, uint8) bool
 type Uint8Mapper func(int, uint8) uint8
@@ -5313,9 +5294,6 @@ func Uint8If(f BoolFunc, a, b uint8) uint8 {
 }
 
 // autogen @type: uint16  @aliasPreix: Uint16
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Uint16Filter func(int, uint16) bool
@@ -5429,9 +5407,6 @@ func Uint16If(f BoolFunc, a, b uint16) uint16 {
 
 // autogen @type: uint32  @aliasPreix: Uint32
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Uint32Filter func(int, uint32) bool
 type Uint32Mapper func(int, uint32) uint32
@@ -5543,9 +5518,6 @@ func Uint32If(f BoolFunc, a, b uint32) uint32 {
 }
 
 // autogen @type: uint64  @aliasPreix: Uint64
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Uint64Filter func(int, uint64) bool
@@ -5659,9 +5631,6 @@ func Uint64If(f BoolFunc, a, b uint64) uint64 {
 
 // autogen @type: float32  @aliasPreix: Float32
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Float32Filter func(int, float32) bool
 type Float32Mapper func(int, float32) float32
@@ -5773,9 +5742,6 @@ func Float32If(f BoolFunc, a, b float32) float32 {
 }
 
 // autogen @type: float64  @aliasPreix: Float64
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Float64Filter func(int, float64) bool
@@ -5889,9 +5855,6 @@ func Float64If(f BoolFunc, a, b float64) float64 {
 
 // autogen @type: bool  @aliasPreix: Bool
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type BoolFilter func(int, bool) bool
 type BoolMapper func(int, bool) bool
@@ -6003,9 +5966,6 @@ func BoolIf(f BoolFunc, a, b bool) bool {
 }
 
 // autogen @type: rune  @aliasPreix: Rune
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type RuneFilter func(int, rune) bool
@@ -6119,9 +6079,6 @@ func RuneIf(f BoolFunc, a, b rune) rune {
 
 // autogen @type: complex64  @aliasPreix: Complex64
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Complex64Filter func(int, complex64) bool
 type Complex64Mapper func(int, complex64) complex64
@@ -6233,9 +6190,6 @@ func Complex64If(f BoolFunc, a, b complex64) complex64 {
 }
 
 // autogen @type: complex32  @aliasPreix: Complex32
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Complex32Filter func(int, complex32) bool
@@ -6349,9 +6303,6 @@ func Complex32If(f BoolFunc, a, b complex32) complex32 {
 
 // autogen @type: *string  @aliasPreix: StringPtr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type StringPtrFilter func(int, *string) bool
 type StringPtrMapper func(int, *string) *string
@@ -6463,9 +6414,6 @@ func StringPtrIf(f BoolFunc, a, b *string) *string {
 }
 
 // autogen @type: *int  @aliasPreix: IntPtr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type IntPtrFilter func(int, *int) bool
@@ -6579,9 +6527,6 @@ func IntPtrIf(f BoolFunc, a, b *int) *int {
 
 // autogen @type: *int64  @aliasPreix: Int64Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Int64PtrFilter func(int, *int64) bool
 type Int64PtrMapper func(int, *int64) *int64
@@ -6693,9 +6638,6 @@ func Int64PtrIf(f BoolFunc, a, b *int64) *int64 {
 }
 
 // autogen @type: *int32  @aliasPreix: Int32Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Int32PtrFilter func(int, *int32) bool
@@ -6809,9 +6751,6 @@ func Int32PtrIf(f BoolFunc, a, b *int32) *int32 {
 
 // autogen @type: *int16  @aliasPreix: Int16Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Int16PtrFilter func(int, *int16) bool
 type Int16PtrMapper func(int, *int16) *int16
@@ -6923,9 +6862,6 @@ func Int16PtrIf(f BoolFunc, a, b *int16) *int16 {
 }
 
 // autogen @type: *int8  @aliasPreix: Int8Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Int8PtrFilter func(int, *int8) bool
@@ -7039,9 +6975,6 @@ func Int8PtrIf(f BoolFunc, a, b *int8) *int8 {
 
 // autogen @type: *uint  @aliasPreix: UintPtr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type UintPtrFilter func(int, *uint) bool
 type UintPtrMapper func(int, *uint) *uint
@@ -7153,9 +7086,6 @@ func UintPtrIf(f BoolFunc, a, b *uint) *uint {
 }
 
 // autogen @type: *uint8  @aliasPreix: Uint8Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Uint8PtrFilter func(int, *uint8) bool
@@ -7269,9 +7199,6 @@ func Uint8PtrIf(f BoolFunc, a, b *uint8) *uint8 {
 
 // autogen @type: *uint16  @aliasPreix: Uint16Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Uint16PtrFilter func(int, *uint16) bool
 type Uint16PtrMapper func(int, *uint16) *uint16
@@ -7383,9 +7310,6 @@ func Uint16PtrIf(f BoolFunc, a, b *uint16) *uint16 {
 }
 
 // autogen @type: *uint32  @aliasPreix: Uint32Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Uint32PtrFilter func(int, *uint32) bool
@@ -7499,9 +7423,6 @@ func Uint32PtrIf(f BoolFunc, a, b *uint32) *uint32 {
 
 // autogen @type: *uint64  @aliasPreix: Uint64Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Uint64PtrFilter func(int, *uint64) bool
 type Uint64PtrMapper func(int, *uint64) *uint64
@@ -7613,9 +7534,6 @@ func Uint64PtrIf(f BoolFunc, a, b *uint64) *uint64 {
 }
 
 // autogen @type: *float32  @aliasPreix: Float32Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Float32PtrFilter func(int, *float32) bool
@@ -7729,9 +7647,6 @@ func Float32PtrIf(f BoolFunc, a, b *float32) *float32 {
 
 // autogen @type: *float64  @aliasPreix: Float64Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Float64PtrFilter func(int, *float64) bool
 type Float64PtrMapper func(int, *float64) *float64
@@ -7843,9 +7758,6 @@ func Float64PtrIf(f BoolFunc, a, b *float64) *float64 {
 }
 
 // autogen @type: *bool  @aliasPreix: BoolPtr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type BoolPtrFilter func(int, *bool) bool
@@ -7959,9 +7871,6 @@ func BoolPtrIf(f BoolFunc, a, b *bool) *bool {
 
 // autogen @type: *rune  @aliasPreix: RunePtr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type RunePtrFilter func(int, *rune) bool
 type RunePtrMapper func(int, *rune) *rune
@@ -8074,9 +7983,6 @@ func RunePtrIf(f BoolFunc, a, b *rune) *rune {
 
 // autogen @type: *complex64  @aliasPreix: Complex64Ptr
 
-// common area
-type BoolFunc func() bool
-
 // ===  gen area =====
 type Complex64PtrFilter func(int, *complex64) bool
 type Complex64PtrMapper func(int, *complex64) *complex64
@@ -8188,9 +8094,6 @@ func Complex64PtrIf(f BoolFunc, a, b *complex64) *complex64 {
 }
 
 // autogen @type: *complex32  @aliasPreix: Complex32Ptr
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type Complex32PtrFilter func(int, *complex32) bool

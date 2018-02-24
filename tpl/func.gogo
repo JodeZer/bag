@@ -1,11 +1,11 @@
 {{define "func"}}
 
+// common area
+type BoolFunc func() bool
+
 {{- range $type := .AllTypes}}
 
 // autogen @type: {{$type.OrigType}}  @aliasPreix: {{$type.AliasType}}
-
-// common area
-type BoolFunc func() bool
 
 // ===  gen area =====
 type {{$type.AliasType}}Filter func(int, {{$type.OrigType}}) bool
